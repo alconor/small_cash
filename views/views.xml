@@ -36,6 +36,35 @@
 
     </field>
   </record>
+
+  <!--Lista: hr.expense.tree-->
+  <record id="view_my_expense_tree_inherit_small_cash" model="ir.ui.view">
+    <field name="name">hr.expense.tree.view.tree.inherit_sc</field>
+    <field name="model">hr.expense</field>
+    <field name="inherit_id" ref="hr_expense.view_my_expenses_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//tree" position="inside">
+        <field name="supplier_invoice" optional="show"></field>
+        <field name="vat" optional="show"></field>
+        <field name="dv_vat" optional="show"></field>
+        <field name="partner_name" optional="show"></field>
+        <field name="taxed_amount" optional="show" sum="Total Impuestos" widget='monetary' options="{'currency_field': 'company_currency_id'}" decoration-bf="True"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!--Agregando campo DV a Res_Partner-->
+  <record id="view_partner_form_inherit_small_cash" model="ir.ui.view">
+    <field name="name">res.partner.view.form.inherit_sc</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='vat']" position="after">
+        <field name="dv"></field>
+      </xpath>
+    </field>
+  </record>
+  
     <!-- explicit list view definition -->
 <!--
     <record model="ir.ui.view" id="small_cash.list">

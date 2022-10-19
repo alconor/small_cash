@@ -3,19 +3,11 @@
 from odoo import models, fields, api
 
 
-# class small_cash(models.Model):
-#     _name = 'small_cash.small_cash'
-#     _description = 'small_cash.small_cash'
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
+    dv = fields.Char(string="D.V. VAT/Tax ID")
+
 class SmallCashAccountMove(models.Model):
     _inherit = 'account.move'
 
@@ -57,5 +49,7 @@ class Small_Cash_Expense(models.Model):
         self.untaxed_amount = self.supplier_invoice.amount_untaxed
         self.total_amount = self.supplier_invoice.amount_total
         self.untaxed_amount = self.total_amount - self.taxed_amount
-        self.name = self.partner_name + '/' + self.supplier_invoice.ref + '-' + self.product_id.name
+        if (self.partner_name != False and self.supplier_invoice.ref != False and self.product_id.name):
+            self.name = self.partner_name + '/' + self.supplier_invoice.ref + '-' + self.product_id.name
+        
         return
