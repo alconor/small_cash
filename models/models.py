@@ -36,6 +36,7 @@ class Small_Cash_Expense(models.Model):
         print("Cambiando partner y asignando nombre y datos fiscales...")
         self.partner_name = self.partner_id.name
         self.vat = self.partner_id.vat
+        self.dv_vat = self.partner_id.dv
         #res = super(AccountMove, self)._onchange_partner_id()
         #res = super(Small_Cash_Expense, self)._onchange_partner_id()
         return 
@@ -49,7 +50,13 @@ class Small_Cash_Expense(models.Model):
         self.untaxed_amount = self.supplier_invoice.amount_untaxed
         self.total_amount = self.supplier_invoice.amount_total
         self.untaxed_amount = self.total_amount - self.taxed_amount
+        self.reference = self.supplier_invoice.ref
         if (self.partner_name != False and self.supplier_invoice.ref != False and self.product_id.name):
             self.name = self.partner_name + '/' + self.supplier_invoice.ref + '-' + self.product_id.name
         
+        return
+    
+    @api.onchange('taxed_amount','total_amount')
+    def _onchange_(self):
+        self.untaxed_amount = self.total_amount - self.taxed_amount
         return

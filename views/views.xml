@@ -17,9 +17,10 @@
         <field name="untaxed_amount" nolabel="1"></field>
         <label for="taxed_amount" string="Impuesto"/>
         <field name="taxed_amount" nolabel="1"></field>
+      </xpath>
+      <xpath expr="//field[@name='tax_ids']" position="replace">
         
       </xpath>
-      
     </field>
   </record>
 
@@ -30,7 +31,7 @@
     <field name="inherit_id" ref="account.view_move_form"/>
     <field name="arch" type="xml">
       <xpath expr="//group[@id='header_right_group']" position="inside">
-        <!--<label for="expense_id" string="ref. Fact. Gasto"/>-->
+        <label for="expense_id" string="ref. Fact. Gasto"/>
         <field name="expense_id" string="Ref. Fact. Gasto:" widget="many2one"></field> 
       </xpath>
 
